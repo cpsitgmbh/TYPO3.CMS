@@ -382,7 +382,7 @@ class tx_coreupdates_migrateworkspaces extends tx_coreupdates_installsysexts {
 
 		include_once(TYPO3_tables_script ? PATH_typo3conf . TYPO3_tables_script : PATH_t3lib . 'stddb/tables.php');
 			// Extension additions
-		if ($GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE']) {
+		if ($GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] && t3lib_extMgm::isCacheFilesAvailable($GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'])) {
 			include_once(PATH_typo3conf . $GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] . '_ext_tables.php');
 		} else {
 			include_once(PATH_t3lib . 'stddb/load_ext_tables.php');

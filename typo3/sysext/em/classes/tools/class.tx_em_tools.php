@@ -140,13 +140,13 @@ final class tx_em_Tools {
 		global $TYPO3_LOADED_EXT;
 
 		$TYPO3_LOADED_EXT = t3lib_extMgm::typo3_loadExtensions();
-		if ($TYPO3_LOADED_EXT['_CACHEFILE']) {
+		if ($TYPO3_LOADED_EXT['_CACHEFILE'] && t3lib_extMgm::isCacheFilesAvailable($TYPO3_LOADED_EXT['_CACHEFILE'])) {
 			require(PATH_typo3conf . $TYPO3_LOADED_EXT['_CACHEFILE'] . '_ext_localconf.php');
 		}
 		return;
 
 		$GLOBALS['TYPO3_LOADED_EXT'] = t3lib_extMgm::typo3_loadExtensions();
-		if ($TYPO3_LOADED_EXT['_CACHEFILE']) {
+		if ($TYPO3_LOADED_EXT['_CACHEFILE'] && t3lib_extMgm::isCacheFilesAvailable($TYPO3_LOADED_EXT['_CACHEFILE'])) {
 			require(PATH_typo3conf . $TYPO3_LOADED_EXT['_CACHEFILE'] . '_ext_localconf.php');
 		} else {
 			$temp_TYPO3_LOADED_EXT = $TYPO3_LOADED_EXT;
@@ -682,7 +682,20 @@ final class tx_em_Tools {
 			if (strlen($k) && is_array($v)) {
 				$lines .= str_repeat(TAB, $level) . "'" . $k . "' => " . self::arrayToCode($v, $level);
 			} elseif (strlen($k)) {
-				$lines .= str_repeat(TAB, $level) . "'" . $k . "' => " . (t3lib_div::testInt($v) ? intval($v) : "'" . t3lib_div::slashJS(trim($v), 1) . "'") . ',' . LF;
+				$leftValue = str_repeat(TAB, $level) . "'" . $k . "' => ";
+				if (t3lib_div::testInt($v)) {
+					$lines .= $leftValue . intval($v);
+				} else {
+					$v = t3lib_div::slashJS(trim($v), 1);
+					if (strlen($leftValue . "'" . $v . "'") < 131) {
+						$lines .= $leftValue . "'" . $v . "'";
+					} else {
+						$splitValue = str_split($v, 130);
+						$lines .= rtrim($leftValue) . LF . str_repeat(TAB, $level + 1) .
+							"'" . implode("' ." . LF . str_repeat(TAB, $level + 1) . "'", $splitValue) . "'";
+					}
+				}
+				$lines .= ',' . LF;
 			}
 		}
 

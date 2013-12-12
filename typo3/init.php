@@ -395,7 +395,7 @@ if (!$CLIENT['BROWSER'] && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_CLI)) {
 // ****************************************************
 include (TYPO3_tables_script ? PATH_typo3conf.TYPO3_tables_script : PATH_t3lib.'stddb/tables.php');
 	// Extension additions
-if ($TYPO3_LOADED_EXT['_CACHEFILE'])	{
+if ($TYPO3_LOADED_EXT['_CACHEFILE'] && t3lib_extMgm::isCacheFilesAvailable($TYPO3_LOADED_EXT['_CACHEFILE'])) {
 	include (PATH_typo3conf.$TYPO3_LOADED_EXT['_CACHEFILE'].'_ext_tables.php');
 } else {
 	include (PATH_t3lib.'stddb/load_ext_tables.php');
