@@ -2243,7 +2243,7 @@
 			$GLOBALS['TCA'] = array();
 			include (TYPO3_tables_script ? PATH_typo3conf.TYPO3_tables_script : PATH_t3lib.'stddb/tables.php');
 				// Extension additions
-			if ($GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] && file_exists(PATH_typo3conf . $GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] . '_ext_tables.php')) {
+			if ($GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] && t3lib_extMgm::isCacheFilesAvailable($GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'])) {
 				include(PATH_typo3conf.$GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'].'_ext_tables.php');
 			} else {
 				include(PATH_t3lib.'stddb/load_ext_tables.php');

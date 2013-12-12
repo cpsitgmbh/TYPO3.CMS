@@ -136,7 +136,7 @@ final class tx_em_Tools {
 	 */
 	public static function refreshGlobalExtList() {
 		$GLOBALS['TYPO3_LOADED_EXT'] = t3lib_extMgm::typo3_loadExtensions();
-		if ($GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE']) {
+		if ($GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] && t3lib_extMgm::isCacheFilesAvailable($TYPO3_LOADED_EXT['_CACHEFILE'])) {
 			require(PATH_typo3conf . $GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] . '_ext_localconf.php');
 		} else {
 			$temp_TYPO3_LOADED_EXT = $GLOBALS['TYPO3_LOADED_EXT'];
